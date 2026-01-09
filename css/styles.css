@@ -1,80 +1,79 @@
 body {
     margin: 0;
+    font-family: Arial, sans-serif;
     min-height: 100vh;
+    background-color: #333; /* Color de fondo si falla la imagen */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background 1s ease-in-out;
-    background-size: cover;
-    background-position: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
+    transition: background-image 1s ease-in-out;
 }
 
-.dashboard-container {
+.dashboard {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    width: 90%;
-    max-width: 1200px;
+    width: 95%;
+    max-width: 1100px;
+    padding: 20px;
 }
 
-.widget {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    padding: 25px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 2px;
+    border-top: 5px solid #c5d92d; /* Verde lima de tu imagen */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-/* Reloj */
-.clock-section #clock { font-size: 4rem; font-weight: bold; }
-.clock-section #date { font-size: 1.5rem; opacity: 0.8; }
+/* Tipografía Reloj */
+#clock { font-size: 3.5rem; font-weight: bold; margin: 0; }
+#date { font-size: 1.2rem; color: #666; }
+.frase-reloj { font-style: italic; color: #444; margin-top: 10px; }
 
-/* Tiempo */
-.forecast-grid {
-    display: flex;
-    overflow-x: auto;
-    gap: 15px;
-    margin-top: 15px;
-    padding-bottom: 10px;
-}
-.forecast-item { text-align: center; min-width: 60px; font-size: 0.8rem; }
-.forecast-item img { width: 30px; }
+/* Estilos Formulario */
+h3 { margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+.form-group { display: flex; flex-direction: column; margin-bottom: 10px; }
 
-/* Inputs y Botones Generales */
 input {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid white;
-    color: white;
     padding: 8px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    border: 1px solid #c5d92d;
+    margin-top: 5px;
+    outline: none;
 }
+
 button {
-    background: #007bff;
+    background: #222;
     color: white;
     border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-button:hover { background: #0056b3; }
-
-/* Lista de Links */
-#links-list { list-style: none; padding: 0; max-height: 150px; overflow-y: auto; }
-.link-item {
-    display: flex;
-    justify-content: space-between;
-    background: rgba(255, 255, 255, 0.1);
-    margin: 5px 0;
     padding: 10px;
-    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
 }
-.link-item a { color: #00d4ff; text-decoration: none; }
-.delete-link { color: #ff4d4d; cursor: pointer; border: none; background: none; }
 
-@media (max-width: 768px) {
-    .dashboard-container { grid-template-columns: 1fr; }
+button:hover { background: #444; }
+
+/* Widgets Específicos */
+.weather-main { display: flex; align-items: center; gap: 10px; font-size: 2rem; }
+.password-box { 
+    margin-top: 15px; 
+    padding: 10px; 
+    background: #f9f9f9; 
+    border: 1px dashed #aaa; 
+    text-align: center;
+    word-break: break-all;
 }
+
+#links-list { list-style: none; padding: 0; margin-top: 10px; }
+.link-item { 
+    display: flex; 
+    justify-content: space-between; 
+    padding: 5px 0; 
+    border-bottom: 1px solid #eee;
+}
+
+@media (max-width: 768px) { .dashboard { grid-template-columns: 1fr; } }

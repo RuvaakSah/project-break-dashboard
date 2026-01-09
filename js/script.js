@@ -1,148 +1,114 @@
-const images = [
-    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05',
+const bgImages = [
+    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b',
+    'https://images.unsplash.com/photo-1500673922987-e212871fec22',
+    'https://images.unsplash.com/photo-1469474968028-56623f02e42e',
     'https://images.unsplash.com/photo-1441974231531-c6227db76b6e',
-    'https://images.unsplash.com/photo-1501854140801-50d01698950b',
-    'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d',
-    'https://images.unsplash.com/photo-1426604966848-d7adac402bff'
+    'https://images.unsplash.com/photo-1501785888041-af3ef285b470'
 ];
 
-function changeBackground() {
-    const randomImg = images[Math.floor(Math.random() * images.length)];
+function changeBg() {
+    const randomImg = bgImages[Math.floor(Math.random() * bgImages.length)];
     document.body.style.backgroundImage = `url('${randomImg}')`;
 }
-setInterval(changeBackground, 15000);
-changeBackground();
+setInterval(changeBg, 15000);
+changeBg();
 
 // ==========================================
-// 2. RELOJ Y FECHA
+// 2. RELOJ DIGITAL Y FRASES
 // ==========================================
-function updateClock() {
-    const now = new Date();
-    
-    // Formateo de Hora
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const s = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
-    
-    // Formateo de Fecha
-    const dateStr = now.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    document.getElementById('date').textContent = dateStr;
+function startClock() {
+    setInterval(() => {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        
+        document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+        document.getElementById('date').textContent = now.toLocaleDateString('es-ES');
 
-    // Mensajes según hora
-    const msgEl = document.getElementById('greeting-message');
-    const hours = now.getHours();
-    if (hours >= 0 && hours <= 7) msgEl.textContent = "Es hora de descansar. Apaga y sigue mañana.";
-    else if (hours <= 12) msgEl.textContent = "Buenos días, desayuna fuerte y a darle al código.";
-    else if (hours <= 14) msgEl.textContent = "Echa un rato más pero no olvides comer.";
-    else if (hours <= 16) msgEl.textContent = "Espero que hayas comido.";
-    else if (hours <= 18) msgEl.textContent = "Buenas tardes, el último empujón.";
-    else if (hours <= 22) msgEl.textContent = "Esto ya son horas extras... piensa en parar pronto.";
-    else msgEl.textContent = "Buenas noches, es hora de pensar en parar y descansar.";
+        const hours = now.getHours();
+        const msg = document.getElementById('greeting-message');
+        if (hours >= 0 && hours <= 7) msg.textContent = "Es hora de descansar.";
+        else if (hours <= 12) msg.textContent = "Buenos días, desayuna fuerte.";
+        else if (hours <= 14) msg.textContent = "No olvides comer.";
+        else if (hours <= 18) msg.textContent = "Buenas tardes, el último empujón.";
+        else msg.textContent = "Buenas noches, toca descansar.";
+    }, 1000);
 }
-setInterval(updateClock, 1000);
-updateClock();
+startClock();
 
 // ==========================================
-// 3. GENERADOR DE CONTRASEÑAS
+// 3. ESTACIÓN METEOROLÓGICA (WEATHER API)
 // ==========================================
-const charSets = {
-    upper: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-    lower: "abcdefghijklmnopqrstuvwxyz",
-    nums: "0123456789",
-    symbols: "!@#$%^&*()-_=+"
-};
+const apiKey = 'TU_API_KEY_AQUÍ'; // <--- PEGA TU API KEY AQUÍ
+let city = localStorage.getItem('userCity') || 'Valencia';
 
+async function fetchWeather(targetCity) {
+    try {
+        const res = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${targetCity}&lang=es`);
+        const data = await res.json();
+        
+        document.getElementById('city-name').textContent = data.location.name;
+        document.getElementById('temperature').textContent = `${Math.round(data.current.temp_c)}°C`;
+        document.getElementById('weather-icon').src = data.current.condition.icon;
+        document.getElementById('weather-desc').textContent = data.current.condition.text;
+        document.getElementById('humidity').textContent = data.current.humidity;
+        document.getElementById('wind').textContent = data.current.wind_kph;
+        
+        localStorage.setItem('userCity', targetCity);
+    } catch (e) { console.error("Error clima"); }
+}
+
+document.getElementById('btn-city').addEventListener('click', () => {
+    const input = document.getElementById('city-input').value;
+    if(input) fetchWeather(input);
+});
+fetchWeather(city);
+
+// ==========================================
+// 4. GENERADOR DE CONTRASEÑAS
+// ==========================================
 document.getElementById('generate-btn').addEventListener('click', () => {
     const length = document.getElementById('pass-length').value;
-    let characters = charSets.upper + charSets.lower + charSets.nums + charSets.symbols;
-    let password = "";
-
-    // Asegurar al menos uno de cada
-    password += charSets.upper[Math.floor(Math.random() * charSets.upper.length)];
-    password += charSets.lower[Math.floor(Math.random() * charSets.lower.length)];
-    password += charSets.nums[Math.floor(Math.random() * charSets.nums.length)];
-    password += charSets.symbols[Math.floor(Math.random() * charSets.symbols.length)];
-
-    for (let i = password.length; i < length; i++) {
-        password += characters[Math.floor(Math.random() * characters.length)];
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+    let pass = "";
+    for (let i = 0; i < length; i++) {
+        pass += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    
-    // Mezclar
-    password = password.split('').sort(() => 0.5 - Math.random()).join('');
-    document.getElementById('generated-password').textContent = password;
+    document.getElementById('generated-password').textContent = pass;
 });
 
 // ==========================================
-// 4. TIEMPO (WEATHER API)
+// 5. LISTADO DE LINKS (LOCALSTORAGE)
 // ==========================================
-const apiKey = 'TU_API_KEY_AQUÍ'; // <--- PON TU KEY AQUÍ
-const city = 'Madrid'; 
+const linkBtn = document.getElementById('add-link-btn');
+let links = JSON.parse(localStorage.getItem('myLinks')) || [];
 
-async function getWeather() {
-    try {
-        const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&aqi=no`);
-        const data = await res.json();
-
-        document.getElementById('city-name').textContent = `${data.location.name}, ${data.location.country}`;
-        document.getElementById('temperature').textContent = `${data.current.temp_c}°C`;
-        document.getElementById('weather-icon').src = data.current.condition.icon;
-        document.getElementById('weather-desc').textContent = data.current.condition.text;
-        document.getElementById('precip').textContent = `${data.current.precip_mm} mm`;
-        document.getElementById('humidity').textContent = `${data.current.humidity}%`;
-        document.getElementById('wind').textContent = `${data.current.wind_kph} km/h`;
-
-        // Previsión por horas
-        const forecastEl = document.getElementById('weather-forecast');
-        forecastEl.innerHTML = "";
-        data.forecast.forecastday[0].hour.forEach(h => {
-            const time = h.time.split(' ')[1];
-            forecastEl.innerHTML += `
-                <div class="forecast-item">
-                    <div>${time}</div>
-                    <img src="${h.condition.icon}">
-                    <div>${h.temp_c}°</div>
-                </div>`;
-        });
-    } catch (err) { console.error("Error clima:", err); }
-}
-getWeather();
-
-// ==========================================
-// 5. LISTADO DE LINKS (LOCAL STORAGE)
-// ==========================================
-const linksList = document.getElementById('links-list');
-let links = JSON.parse(localStorage.getItem('myDashboardLinks')) || [];
-
-function renderLinks() {
-    linksList.innerHTML = "";
-    links.forEach((link, index) => {
-        const li = document.createElement('li');
-        li.className = "link-item";
-        li.innerHTML = `
-            <a href="${link.url}" target="_blank">${link.title}</a>
-            <button class="delete-link" onclick="deleteLink(${index})">✖</button>
-        `;
-        linksList.appendChild(li);
+function showLinks() {
+    const list = document.getElementById('links-list');
+    list.innerHTML = "";
+    links.forEach((l, i) => {
+        list.innerHTML += `
+            <li class="link-item">
+                <a href="${l.url}" target="_blank">${l.title}</a>
+                <span style="cursor:pointer;color:red" onclick="removeLink(${i})">Eliminar</span>
+            </li>`;
     });
 }
 
-document.getElementById('add-link-btn').addEventListener('click', () => {
+linkBtn.addEventListener('click', () => {
     const title = document.getElementById('link-title').value;
     const url = document.getElementById('link-url').value;
-    if (title && url) {
-        links.push({ title, url });
-        localStorage.setItem('myDashboardLinks', JSON.stringify(links));
-        renderLinks();
-        document.getElementById('link-title').value = "";
-        document.getElementById('link-url').value = "";
+    if(title && url) {
+        links.push({title, url});
+        localStorage.setItem('myLinks', JSON.stringify(links));
+        showLinks();
     }
 });
 
-window.deleteLink = (index) => {
-    links.splice(index, 1);
-    localStorage.setItem('myDashboardLinks', JSON.stringify(links));
-    renderLinks();
+window.removeLink = (i) => {
+    links.splice(i, 1);
+    localStorage.setItem('myLinks', JSON.stringify(links));
+    showLinks();
 };
-
-renderLinks();
+showLinks();

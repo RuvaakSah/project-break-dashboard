@@ -3,57 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Pro Dashboard</title>
+    <title>Dashboard - Project Break</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="dashboard-container">
-        <section class="widget clock-section">
+    <main class="dashboard">
+        
+        <section class="card">
             <div id="clock">00:00:00</div>
-            <div id="date">Cargando fecha...</div>
-            <p id="greeting-message"></p>
+            <div id="date">--/--/----</div>
+            <p id="greeting-message" class="frase-reloj"></p>
         </section>
 
-        <section class="widget weather-section">
-            <div id="weather-current">
-                <h2 id="city-name">Ciudad</h2>
-                <div class="weather-info">
-                    <img id="weather-icon" src="" alt="clima">
-                    <span id="temperature">--°C</span>
-                </div>
-                <p id="weather-desc">Cargando tiempo...</p>
-                <div class="weather-details">
-                    <span>Precip: <b id="precip">--</b></span>
-                    <span>Humedad: <b id="humidity">--</b></span>
-                    <span>Viento: <b id="wind">--</b></span>
+        <section class="card">
+            <div class="weather-header">
+                <h2 id="city-name">Clima</h2>
+                <div class="search-box">
+                    <input type="text" id="city-input" placeholder="Ciudad...">
+                    <button id="btn-city">BUSCAR</button>
                 </div>
             </div>
-            <div id="weather-forecast" class="forecast-grid">
-                </div>
+            <div class="weather-main">
+                <img id="weather-icon" src="" alt="">
+                <span id="temperature">--°C</span>
+            </div>
+            <p id="weather-desc">Cargando...</p>
+            <div class="weather-details">
+                <p>Humedad: <span id="humidity">--</span>% | Viento: <span id="wind">--</span> km/h</p>
+            </div>
         </section>
 
-        <section class="widget password-section">
+        <section class="card">
             <h3>Generador de Contraseñas</h3>
-            <div class="pass-controls">
+            <div class="form-group">
                 <label>Longitud (12-50):</label>
                 <input type="number" id="pass-length" min="12" max="50" value="12">
-                <button id="generate-btn">Generar</button>
             </div>
-            <div id="generated-password" class="result-box">********</div>
+            <button id="generate-btn">GENERAR CONTRASEÑA</button>
+            <div id="generated-password" class="password-box">********</div>
         </section>
 
-        <section class="widget links-section">
-            <h3>Mis Enlaces</h3>
-            <div class="link-inputs">
-                <input type="text" id="link-title" placeholder="Nombre">
-                <input type="text" id="link-url" placeholder="https://...">
-                <button id="add-link-btn">Añadir</button>
+        <section class="card">
+            <h3>Mis Enlaces Favoritos</h3>
+            <div class="form-group">
+                <input type="text" id="link-title" placeholder="Título (Ej: Google)">
+                <input type="text" id="link-url" placeholder="URL (Ej: https://...)">
             </div>
+            <button id="add-link-btn">AÑADIR ENLACE</button>
             <ul id="links-list"></ul>
         </section>
-    </div>
 
+    </main>
     <script src="script.js"></script>
 </body>
 </html>
