@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Pro Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <section class="widget clock-section">
+            <div id="clock">00:00:00</div>
+            <div id="date">Cargando fecha...</div>
+            <p id="greeting-message"></p>
+        </section>
+
+        <section class="widget weather-section">
+            <div id="weather-current">
+                <h2 id="city-name">Ciudad</h2>
+                <div class="weather-info">
+                    <img id="weather-icon" src="" alt="clima">
+                    <span id="temperature">--°C</span>
+                </div>
+                <p id="weather-desc">Cargando tiempo...</p>
+                <div class="weather-details">
+                    <span>Precip: <b id="precip">--</b></span>
+                    <span>Humedad: <b id="humidity">--</b></span>
+                    <span>Viento: <b id="wind">--</b></span>
+                </div>
+            </div>
+            <div id="weather-forecast" class="forecast-grid">
+                </div>
+        </section>
+
+        <section class="widget password-section">
+            <h3>Generador de Contraseñas</h3>
+            <div class="pass-controls">
+                <label>Longitud (12-50):</label>
+                <input type="number" id="pass-length" min="12" max="50" value="12">
+                <button id="generate-btn">Generar</button>
+            </div>
+            <div id="generated-password" class="result-box">********</div>
+        </section>
+
+        <section class="widget links-section">
+            <h3>Mis Enlaces</h3>
+            <div class="link-inputs">
+                <input type="text" id="link-title" placeholder="Nombre">
+                <input type="text" id="link-url" placeholder="https://...">
+                <button id="add-link-btn">Añadir</button>
+            </div>
+            <ul id="links-list"></ul>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

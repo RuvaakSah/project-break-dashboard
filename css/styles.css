@@ -1,0 +1,80 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 1s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+}
+
+.dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.widget {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Reloj */
+.clock-section #clock { font-size: 4rem; font-weight: bold; }
+.clock-section #date { font-size: 1.5rem; opacity: 0.8; }
+
+/* Tiempo */
+.forecast-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    margin-top: 15px;
+    padding-bottom: 10px;
+}
+.forecast-item { text-align: center; min-width: 60px; font-size: 0.8rem; }
+.forecast-item img { width: 30px; }
+
+/* Inputs y Botones Generales */
+input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover { background: #0056b3; }
+
+/* Lista de Links */
+#links-list { list-style: none; padding: 0; max-height: 150px; overflow-y: auto; }
+.link-item {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 8px;
+}
+.link-item a { color: #00d4ff; text-decoration: none; }
+.delete-link { color: #ff4d4d; cursor: pointer; border: none; background: none; }
+
+@media (max-width: 768px) {
+    .dashboard-container { grid-template-columns: 1fr; }
+}
